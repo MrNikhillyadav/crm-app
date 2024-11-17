@@ -4,7 +4,7 @@ const {ObjectId} = mongoose.Types
 const orderSchema = new mongoose.Schema({
   customerId: {
     type: ObjectId,
-    ref: 'Customer',
+    ref: 'Users',
     required: true
   },
   orderAmount: {

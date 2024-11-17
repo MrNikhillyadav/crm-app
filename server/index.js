@@ -19,9 +19,9 @@ mongoose.connect('mongodb://localhost:27017/Xeno-CRM')
 
 app.use('/admin/', adminRouter)
 
-app.use('/user/',authMiddleware,userRouter)
-app.use('/order',authMiddleware, orderRouter)
-app.use('/communication',authMiddleware, communicationRouter)
+app.use('/user/',userRouter)
+app.use('/order', orderRouter)
+app.use('/communication', communicationRouter)
 
 app.listen(PORT,()=>{
             console.log(`listening at port ${PORT} `)

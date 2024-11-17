@@ -2,18 +2,62 @@ const express = require('express')
 const router = express.Router()
 const { OrderModel} = require('../db/order')
 
-router.post('/',(req,res) =>{
-        
+router.post('/:id',async(req,res) =>{
+        const {orderAmount,orderDate} = req.body
+        const customerId = req.params.id
+        console.log('customerId: ', customerId);
+        try{    
+                const customerDetail = await CustomerModel.findById(customerId)
+                console.log('customerDetail: ', customerDetail);
+
+                const order = await OrderModel.create({
+                        customerId,
+                        orderAmount,
+                        orderDate,
+                      
+                })      
+        }
+        catch(e){
+
+                res.json({
+                        error : e
+                })
+        }
+
+
         res.json({
-                message : 'order added',
+                message : "order created"
+                
         })
+
 })
 
-router.get('/',(req,res) =>{
+router.get('/', async(req,res) =>{
+        try{    
+                
+                const allOrders = await OrderModel.find({ })
+                console.log('allOrders: ', allOrders);
+                
+                const customerId = allOrders.customerId
+                console.log('customerId: ', customerId);
+
+                        if(customerId){
+                                const customerDetail = await CustomerModel.findById(customerId)
+                                console.log('customerDetail: ', customerDetail);
+                        }
+
+                res.json({
+                        message : allOrders,
+                        customerId : allOrders.customerId
+                        // name : name
         
-        res.json({
-                message : 'all orders',
-        })
+                })
+
+        }catch(e){
+                res.json({
+                        error : 'error'
+                        })
+        }
 })
 
 router.get('/:id',(req,res) =>{
