@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaArrowRight } from 'react-icons/fa';
 import avatar from '../assets/avatar.png';
@@ -7,8 +6,11 @@ import { FiMessageSquare, FiShoppingCart } from 'react-icons/fi';
 import { FaUserSecret } from 'react-icons/fa6';
 import { RxDashboard } from 'react-icons/rx';
 import { IoLogoLaravel } from 'react-icons/io5';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function NavBar() {
+  const {user , isAuthenticated} = useAuth0()
+  
   return (
     <div className="bg-[#231f4e] flex flex-col h-screen  min-w-[20vw]  text-white pt-[4rem]">
      
@@ -59,18 +61,31 @@ function NavBar() {
           </Link>
         </div>
 
-       
-        <div className="flex cursor-pointer my-2 flex-col drop-shadow-lg items-start justify-center bg-[#8e8aba2c] w-full p-6 rounded-md">
-          <div className="flex my-2 w-full justify-between items-center">
-            <img className="rounded-full w-12 h-12" src={avatar} alt="logo" />
-            <div className="rounded-full hover:bg-white hover:bg-opacity-20 text-lg p-1">
-              <FaArrowRight />
-            </div>
-          </div>
+ 
+          { isAuthenticated &&
+             (
+               <>
+                  <div className="flex cursor-pointer my-2 flex-col drop-shadow-lg items-start justify-center bg-[#8e8aba2c] w-full p-6 rounded-md">
+                    <div>
+                          <div className="flex my-2 w-full justify-between items-center">
+                                  <img className="rounded-full w-12 h-12" src={avatar} alt="logo" />
+                                  <div className="rounded-full hover:bg-white hover:bg-opacity-20 text-lg p-1">
+                                    <FaArrowRight />
+                                  </div>
+                            </div>
 
-          <div>Name</div>
-          <div className="text-xs">facts.foundr@gmail.com</div>
-        </div>
+                            <div className='flex flex-col'>
+                                  <span className="text-sm">{user.name}</span>
+                                  <span className="text-xs">{user.email}</span>
+                              </div>
+                          
+                        
+                        </div>
+                  </div>
+              </>
+            ) 
+            }
+        
       </div>
     </div>
   );

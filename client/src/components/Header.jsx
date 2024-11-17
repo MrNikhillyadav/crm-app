@@ -2,11 +2,12 @@ import { FaDashcube } from 'react-icons/fa';
 import avatar from '../assets/avatar.png'; 
 import { IoSearchOutline } from "react-icons/io5";
 
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 function Header() {
-  const isLoggedIn = true;
-  const userEmail = "facts.foundr@gmail.com"; 
 
+  const {user,loginWithRedirect,isAuthenticated,logout} = useAuth0()
 
   return (
     <div className="bg-[#231f4e] text-white flex items-center justify-between px-6 py-4 shadow-md sticky top-0 z-50">
@@ -16,7 +17,7 @@ function Header() {
         <span>CRM.com</span>
       </div>
 
-      <div className="flex rounded-sm bg-white justify-center items-center flex-grow mx-10 max-w-3xl">
+      <div className="flex rounded-lg bg-white justify-center items-center flex-grow  mx-8 max-w-2xl">
         <IoSearchOutline className='text-black ml-2' />
         <input
           type="text"
@@ -27,25 +28,28 @@ function Header() {
 
 
       <div className="flex items-center gap-4">
-        {isLoggedIn ? (
-          <div className="flex items-center gap-3">
+        {console.log(isAuthenticated)}
+        {isAuthenticated ? (
+          <div className="flex items-center w-full gap-4">
             <img
               src={avatar}
               alt="User Avatar"
               className="w-10 h-10 rounded-full"
             />
-            <span>{userEmail}</span>
+            <div className='flex flex-col'>
+                <span className="text-sm">{user.name}</span>
+                <span className="text-xs">{user.email}</span>
+            </div>
+            <button onClick={(e)=> logout()} className="px-4 py-2 bg-blue-500 rounded-md hover:bg-blue-600">Logout</button>
           </div>
         ) : (
           <div className="flex gap-4">
-            <button className="px-4 py-2 bg-green-500 rounded-md hover:bg-green-600">
+            <button onClick={(e)=> loginWithRedirect()} className="px-4 py-2 bg-blue-500 rounded-md ">
               Login
             </button>
-            <button className="px-4 py-2 bg-blue-500 rounded-md hover:bg-blue-600">
-              Sign Up
-            </button>
-          </div>
-        )}
+
+          </div>)
+        }
       </div>
     </div>
   );
