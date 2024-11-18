@@ -6,7 +6,6 @@ const Messages = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch messages data from the backend
   useEffect(() => {
     axios
       .get('http://localhost:5000/communication/')
@@ -21,17 +20,17 @@ const Messages = () => {
   }, []);
 
   return (
-    <div className="border h-[80vh] border-slate-200 rounded-sm w-full text-black p-8 overflow-y-auto">
-      <h1 className="font-bold text-[2vw] text-blue-800 text-center mb-4">Messages</h1>
+    <div className="border h-[80vh] rounded-sm w-full text-black p-6 py-2 overflow-y-auto">
+      <h1 className="font-bold text-[2vw] text-[#2d00f7] text-center mb-4">Messages</h1>
 
       {loading ? (
-        <div className="text-center text-blue-600">Loading...</div>
+        <div className="text-center text-[#2d00f7]">Loading...</div>
       ) : error ? (
         <div className="text-center text-red-500">{error}</div>
       ) : (
-        <div className="container rounded-md shadow-sm p-4 bg-white">
-          <table className="w-full border-collapse border border-slate-200 text-left">
-            <thead className="bg-blue-50">
+        <div className="container rounded-md shadow-sm  p-4">
+          <table className="w-full border-collapse text-left">
+            <thead className="bg-white text-[#2d00f7] rounded-md">
               <tr>
                 <th className="border border-slate-300 px-4 py-2">#</th>
                 <th className="border border-slate-300 px-4 py-2">Customer Name</th>
@@ -41,16 +40,21 @@ const Messages = () => {
                 <th className="border border-slate-300 px-4 py-2">Sent At</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="rounded-md">
               {messages.length > 0 ? (
                 messages.map((msg, index) => (
-                  <tr key={msg._id} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
-                    <td className="border border-slate-300 px-4 py-2">{index + 1}</td>
-                    <td className="border border-slate-300 px-4 py-2">{msg.customerId?.name || 'N/A'}</td>
-                    <td className="border border-slate-300 px-4 py-2">{msg.customerId?.email || 'N/A'}</td>
-                    <td className="border border-slate-300 px-4 py-2">{msg.message}</td>
-                    <td className="border border-slate-300 px-4 py-2">{msg.status}</td>
-                    <td className="border border-slate-300 px-4 py-2">
+                  <tr
+                    key={msg._id}
+                    className={`${
+                      index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
+                    } hover:bg-[#2d00f7] hover:text-white transition-all duration-200`}
+                  >
+                    <td className="px-4 py-2">{index + 1}</td>
+                    <td className="px-4 py-2">{msg.customerId?.name || 'N/A'}</td>
+                    <td className="px-4 py-2">{msg.customerId?.email || 'N/A'}</td>
+                    <td className="px-4 py-2">{msg.message}</td>
+                    <td className="px-4 py-2">{msg.status}</td>
+                    <td className="px-4 py-2">
                       {msg.sentAt ? new Date(msg.sentAt).toLocaleString() : 'N/A'}
                     </td>
                   </tr>

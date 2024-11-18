@@ -12,11 +12,10 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        
         const [customersRes, messagesRes, recentMessagesRes] = await Promise.all([
-          axios.get("http://localhost:5000/user/count"), // 
-          axios.get("http://localhost:5000/communication/count"), 
-          axios.get("http://localhost:5000/communication/recent"), 
+          axios.get("http://localhost:5000/user/count"),
+          axios.get("http://localhost:5000/communication/count"),
+          axios.get("http://localhost:5000/communication/recent"),
         ]);
 
         setStats({
@@ -24,12 +23,9 @@ const Dashboard = () => {
           messages: messagesRes.data.count || 0,
           recentMessages: recentMessagesRes.data || [],
         });
-
-      } 
-      catch (error) {
+      } catch (error) {
         console.error("Error fetching dashboard data:", error);
-      } 
-      finally {
+      } finally {
         setLoading(false);
       }
     };
@@ -47,34 +43,28 @@ const Dashboard = () => {
 
   return (
     <div className="border h-[80vh] border-slate-200 rounded-sm w-full text-black p-8">
-      <h1 className="font-bold text-[2vw] text-blue-800 text-center">
-        CRM Dashboard
-      </h1>
+      <h1 className="font-bold text-[2vw] text-[#2d00f7] text-center">CRM Dashboard</h1>
 
-      
       <div className="grid grid-cols-3 gap-4 mt-8">
-
-        <div className="bg-blue-100 p-6 rounded-md shadow-md text-center">
-          <h2 className="text-lg font-semibold text-blue-700">Total Customers</h2>
+        <div className="bg-[#2d00f7] text-white p-8 rounded-md shadow-md text-center">
+          <h2 className="text-lg font-semibold">Total Customers</h2>
           <p className="text-2xl font-bold">{stats.customers}</p>
         </div>
 
-        <div className="bg-green-100 p-6 rounded-md shadow-md text-center">
-          <h2 className="text-lg font-semibold text-green-700">Total Messages</h2>
+        <div className="bg-[#2d00f7] text-white p-8 rounded-md shadow-md text-center">
+          <h2 className="text-lg font-semibold">Total Messages</h2>
           <p className="text-2xl font-bold">{stats.messages}</p>
         </div>
 
-        <div className="bg-yellow-100 p-6 rounded-md shadow-md text-center">
-          <h2 className="text-lg font-semibold text-yellow-700">Pending Tasks</h2>
+        <div className="bg-[#2d00f7] text-white p-8 rounded-md shadow-md text-center">
+          <h2 className="text-lg font-semibold text-white">Pending Tasks</h2>
           <p className="text-2xl font-bold">{stats.recentMessages.length}</p>
         </div>
       </div>
 
-      
       <div className="mt-8 bg-white rounded-md shadow-md p-6">
         <h2 className="font-bold text-lg text-gray-700 mb-4">Recent Messages</h2>
         <div className="overflow-y-scroll max-h-[300px]">
-
           {stats.recentMessages.length === 0 ? (
             <p className="text-gray-500">No recent messages available.</p>
           ) : (
@@ -88,12 +78,14 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                
                 {stats.recentMessages.map((msg, index) => (
-                  <tr key={index} className="hover:bg-gray-50">
-                    <td className="py-2">{msg.customerId?.name || "Unknown"}</td>
-                    <td className="py-2">{msg.message}</td>
-                    <td className="py-2">
+                  <tr
+                    key={index}
+                    className="hover:bg-[#2d00f7]  hover:text-white transition-all duration-200"
+                  >
+                    <td className="px-2 rounded-sm">{msg.customerId?.name || "Unknown"}</td>
+                    <td className="px-2 rounded-sm">{msg.message}</td>
+                    <td className="px-2 rounded-sm">
                       <span
                         className={`px-2 py-1 rounded-md text-white ${
                           msg.status === "SENT" ? "bg-green-500" : "bg-red-500"

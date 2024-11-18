@@ -10,7 +10,7 @@ function Header() {
   const {user,loginWithRedirect,isAuthenticated,logout} = useAuth0()
 
   return (
-    <div className="bg-[#231f4e] text-white flex items-center justify-between px-6 py-4 shadow-md sticky top-0 z-50">
+    <div className="bg-[#2d00f7] text-white flex items-center justify-between px-6 py-4  sticky top-0 z-50">
       
       <div className="flex items-center gap-2 text-lg">
         <FaDashcube className="text-3xl" />
