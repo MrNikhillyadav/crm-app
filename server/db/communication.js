@@ -4,7 +4,7 @@ const {ObjectId} = mongoose.Schema.Types
 const communicationsLogSchema = new mongoose.Schema({
   customerId: {
     type: ObjectId,
-    ref: 'Customer', 
+    ref: 'Users', 
     required: true
   },
   message: {
