@@ -58,7 +58,7 @@ router.get('/', async (req, res) => {
         }
       });
 
-// Fetch a specific order with customer details
+
 router.get('/:id', async (req, res) => {
         const id = req.params.id;
       

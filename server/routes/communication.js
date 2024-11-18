@@ -3,6 +3,14 @@ const router = express.Router();
 const { CommunicationLogModel } = require('../db/communication');
 const { UserModel } = require('../db/user');
 
+router.get('/count', async (req, res) => {
+        try {
+          const count = await CommunicationLogModel.countDocuments();
+          res.json({ count });
+        } catch (err) {
+          res.status(500).json({ error: 'Error fetching message count', details: err.message });
+        }
+});
 
 router.post('/:id', async (req, res) => {
   const  {message } = req.body;
@@ -55,6 +63,19 @@ router.get('/', async (req, res) => {
         }
 });
 
+router.get('/recent', async (req, res) => {
+        try {
+                const recentMessages = await CommunicationLogModel.find({})
+                .populate('customerId', 'name email')
+                .sort({ sentAt: -1 }) 
+                .limit(10); 
+                res.json(recentMessages);
+        } catch (err) {
+                res.status(500).json({ error: 'Error fetching recent messages', details: err.message });
+        }
+        });
+
+        
 router.get('/:id', async (req, res) => {
         const { id } = req.params;
 
@@ -84,5 +105,10 @@ router.get('/:id', async (req, res) => {
                 });
         }
 });
+
+
+ 
+
+      
 
 module.exports = router;

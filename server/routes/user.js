@@ -51,6 +51,15 @@ router.get('/', async(req,res) =>{
    
 })
 
+router.get('/count', async (req, res) => {
+        try {
+          const count = await UserModel.countDocuments();
+          res.json({ count });
+        } catch (err) {
+          res.status(500).json({ error: 'Error fetching customer count', details: err.message });
+        }
+      });
+      
 
 router.get('/:id',async (req,res) =>{
         const id = req.params.id
