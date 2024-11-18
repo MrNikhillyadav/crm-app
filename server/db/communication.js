@@ -22,7 +22,7 @@ const communicationsLogSchema = new mongoose.Schema({
   }
 });
 
-const CommunicationLogModel =  mongoose.model('CommunicationsLog', communicationsLogSchema);
+const CommunicationLogModel =  mongoose.model('Messages', communicationsLogSchema);
 
 module.exports = {
   CommunicationLogModel

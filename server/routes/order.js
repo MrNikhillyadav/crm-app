@@ -1,71 +1,88 @@
 const express = require('express')
 const router = express.Router()
 const { OrderModel} = require('../db/order')
+const {UserModel} = require('../db/user')
 
 router.post('/:id',async(req,res) =>{
         const {orderAmount,orderDate} = req.body
         const customerId = req.params.id
         console.log('customerId: ', customerId);
+
         try{    
-                const customerDetail = await CustomerModel.findById(customerId)
+                const customerDetail = await UserModel.findById(customerId)
                 console.log('customerDetail: ', customerDetail);
+                if (!customerDetail) {
+                        return res.status(404).json({ error: 'Customer not found' });
+                      }
 
                 const order = await OrderModel.create({
                         customerId,
                         orderAmount,
                         orderDate,
                       
-                })      
-        }
-        catch(e){
-
+                })    
+                
                 res.json({
-                        error : e
+                        message: 'Order created',
+                        order,
+                      });
+        }
+        catch (e) {
+
+                res.status(500).json({
+                        error: e.message,
                 })
         }
 
 
-        res.json({
-                message : "order created"
-                
-        })
 
 })
 
-router.get('/', async(req,res) =>{
-        try{    
-                
-                const allOrders = await OrderModel.find({ })
-                console.log('allOrders: ', allOrders);
-                
-                const customerId = allOrders.customerId
-                console.log('customerId: ', customerId);
+router.get('/', async (req, res) => {
 
-                        if(customerId){
-                                const customerDetail = await CustomerModel.findById(customerId)
-                                console.log('customerDetail: ', customerDetail);
-                        }
+        try {
 
-                res.json({
-                        message : allOrders,
-                        customerId : allOrders.customerId
-                        // name : name
-        
-                })
+          const allOrders = await OrderModel.find({})
+            .populate('customerId', 'name email') // Populate with `name` and `email` from Users collection
+            .exec();
+      
+          res.json({
+            message: allOrders,
+          });
 
-        }catch(e){
-                res.json({
-                        error : 'error'
-                        })
+        } catch (e) {
+
+                res.status(500).json({
+                error: 'Error fetching orders',
+                });
         }
-})
+      });
 
-router.get('/:id',(req,res) =>{
+// Fetch a specific order with customer details
+router.get('/:id', async (req, res) => {
+        const id = req.params.id;
+      
+        try {
+                const order = await OrderModel.findById(id)
+                .populate('customerId', 'name email') // Populate with `name` and `email` from Users collection
+                .exec();
         
-        res.json({
-                message : ' order with ID',
-        })
-})
+                if (!order) {
+                return res.status(404).json({ error: 'Order not found' });
+                }
+        
+                res.json({
+                message: order,
+                });
+
+        }
+         catch (e) {
+
+                res.status(500).json({
+                error: 'Error fetching order',
+                });
+        }
+      });
 
 router.put('/:id',(req,res) =>{
         
