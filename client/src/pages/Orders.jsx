@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import axios from "axios";
 
 const Orders = () => {
@@ -6,16 +6,16 @@ const Orders = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch orders data from the backend
+  
   useEffect(() => {
     axios
       .get("http://localhost:5000/order/")
       .then((response) => {
-        setOrders(response.data.message); // Assuming `message` contains the orders array
+        setOrders(response.data.message); 
         setLoading(false);
       })
       .catch((err) => {
-        setError("Failed to fetch orders data");
+        setError("Failed to fetch orders data",err);
         setLoading(false);
       });
   }, []);

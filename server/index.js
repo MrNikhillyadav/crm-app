@@ -7,22 +7,27 @@ const orderRouter = require('./routes/order')
 const communicationRouter = require('./routes/communication')
 const authMiddleware = require('./middlewares/authMiddleware')
 
-const PORT =  5000
+require('dotenv').config();
+
+
 const app = express()
 app.use(cors())
 app.use(express.json())
 
+console.log(process.env.MONGO_URL)
 
-mongoose.connect('mongodb://localhost:27017/Xeno-CRM')
+mongoose.connect(process.env.MONGO_URL)
 .then(()=> console.log('connected to Db'))
 
-
+app.get('/',(req,res)=>{
+          res.send('hello world')
+})
 app.use('/admin/', adminRouter)
 
 app.use('/user/',userRouter)
 app.use('/order', orderRouter)
 app.use('/communication', communicationRouter)
 
-app.listen(PORT,()=>{
-            console.log(`listening at port ${PORT} `)
+app.listen(process.env.PORT,()=>{
+            console.log(`listening at port ${process.env.PORT} `)
 })

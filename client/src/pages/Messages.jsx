@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Messages = () => {
@@ -10,11 +10,11 @@ const Messages = () => {
     axios
       .get('http://localhost:5000/communication/')
       .then((response) => {
-        setMessages(response.data.data); // Assuming `data` contains the messages array
+        setMessages(response.data.data); 
         setLoading(false);
       })
       .catch((err) => {
-        setError('Failed to fetch messages data');
+        setError('Failed to fetch messages data',err);
         setLoading(false);
       });
   }, []);

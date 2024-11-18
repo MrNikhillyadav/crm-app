@@ -1,5 +1,4 @@
 import { useAuth0 } from "@auth0/auth0-react";
-// import signup from '../assets/signup'; 
 import avatar from '../assets/avatar.png'; 
 
 const Login = () => {
@@ -19,7 +18,7 @@ const Login = () => {
 
                               <h1 className=" text-md p-2 text-slate-800 font-medium">Click below To Continue</h1>
 
-                              <button onClick={(e)=> loginWithRedirect()} className="px-4  text-white py-2 bg-[#6a00f4] hover:bg-blue-700 drop-shadow-md rounded-md ">
+                              <button onClick={()=> loginWithRedirect()} className="px-4  text-white py-2 bg-[#6a00f4] hover:bg-blue-700 drop-shadow-md rounded-md ">
                                         Login / Signup
                               </button>
 

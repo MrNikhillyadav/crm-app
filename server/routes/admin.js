@@ -5,7 +5,8 @@ const {z} = require('zod')
 const authMiddleware = require('../middlewares/authMiddleware')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-const Admin_Secret = 'ahdfhehfaffedvs'
+require('dotenv').config();
+
 
 router.get('/', authMiddleware, async(req,res) =>{
     const adminId = req.userId
@@ -86,7 +87,8 @@ router.post('/login',async(req,res) =>{
             if(passwordMatch){
                 const token = await jwt.sign({
                    userId: user._id.toString()
-                },Admin_Secret)
+                },process.env.ADMIN_SECRET)
+
 
                 res.json({
                     message : "login successfully",

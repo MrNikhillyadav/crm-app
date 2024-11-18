@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 const Clients = () => {
@@ -6,16 +6,16 @@ const Clients = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch clients data from the backend
+  
   useEffect(() => {
     axios
       .get("http://localhost:5000/user/")
       .then((response) => {
-        setClients(response.data.message); // Assuming `message` contains the users array
+        setClients(response.data.message); 
         setLoading(false);
       })
       .catch((err) => {
-        setError("Failed to fetch clients data");
+        setError("Failed to fetch clients data",err);
         setLoading(false);
       });
   }, []);
