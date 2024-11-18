@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
@@ -7,7 +8,6 @@ const orderRouter = require('./routes/order')
 const communicationRouter = require('./routes/communication')
 const authMiddleware = require('./middlewares/authMiddleware')
 
-require('dotenv').config();
 
 
 const app = express()
@@ -22,7 +22,6 @@ mongoose.connect(process.env.MONGO_URL)
 app.get('/',(req,res)=>{
           res.send('hello world')
 })
-app.use('/admin/', adminRouter)
 
 app.use('/user/',userRouter)
 app.use('/order', orderRouter)

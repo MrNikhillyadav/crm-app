@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express')
 const router = express.Router()
 const { AdminModel} = require('../db/admin')
@@ -5,7 +6,6 @@ const {z} = require('zod')
 const authMiddleware = require('../middlewares/authMiddleware')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-require('dotenv').config();
 
 
 router.get('/', authMiddleware, async(req,res) =>{
